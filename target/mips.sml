@@ -262,6 +262,7 @@ fun   printlabel (UserDefined s) = s
     |   prInst (BGEZ(r1, l1)) 			= "bgez " ^ printreg(r1) ^ ", " ^ printlabel(l1)
     |   prInst (BGEZAL(r1, l1)) 		= "bgezal " ^ printreg(r1) ^ ", " ^ printlabel(l1)
     |   prInst (BGT(r1, r2, l1)) 		= "bgt " ^ printreg(r1) ^ ", " ^ printreg(r2) ^ ", " ^ printlabel(l1)
+	|   prInst (BGTU(r1, r2, l1)) 		= "bgt " ^ printreg(r1) ^ ", " ^ printreg(r2) ^ ", " ^ printlabel(l1)
     |   prInst (BGTZ(r1, l1)) 			= "bgtz " ^ printreg(r1) ^ ", " ^ printlabel(l1)
     |   prInst (BLE(r1, r2, l1)) 		= "ble " ^ printreg(r1) ^ ", " ^ printreg(r2) ^ ", " ^ printlabel(l1)
     |   prInst (BLEU(r1, r2, l1)) 	    = "bleu " ^ printreg(r1) ^ ", " ^ printreg(r2) ^ ", " ^ printlabel(l1)
