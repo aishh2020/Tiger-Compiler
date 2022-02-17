@@ -16,7 +16,7 @@ datatype reg = zero                                          (* Constant 0 *)
 (* The instruction *)
 datatype  ('l,'t) inst = 
 	  (* Arithmetic and Logical Instructions *)
-	                 ABS of 't * 't 
+	             ABS of 't * 't 
 	           | ADD of 't * 't * 't 
 		       | ADDI of 't * 't * int 
 		       | ADDU of 't * 't * 't
@@ -236,10 +236,8 @@ fun   printlabel (UserDefined s) = s
 	|    prInst (SUBU(r1,r2,r3))  =   "subu "^printreg(r1)^", "^printreg(r2)^", "^printreg(r3)
 	|    prInst (XOR(r1,r2,r3))    = "xor "^printreg(r1)^", "^printreg(r2)^", "^printreg(r3)
 	|    prInst (XORI(r1,r2,i))   = "xori "^printreg(r1)^", "^printreg(r2)^", "^(Int.toString i)
-							(* Constant-Manipulating Instructions *)
 	|    prInst (LI(r1,i))        = "li "^printreg(r1)^", "^(Int.toString i)            
-	|    prInst (LUI(r1,i))       = "lui "^printreg(r1)^", "^(Int.toString i)      
-						
+	|   prInst (LUI(r1,i))       = "lui "^printreg(r1)^", "^(Int.toString i)      						
 	|   prInst (SEQ(r1, r2, r3)) 	    = "seq "  ^ printreg(r1) ^ ", " ^ printreg(r2) ^ ", " ^ printreg(r3)      
     |   prInst (SGE(r1, r2, r3))		= "sge "  ^ printreg(r1) ^ ", " ^ printreg(r2) ^ ", " ^ printreg(r3)
     |   prInst (SGEU(r1, r2, r3))		= "sgeu " ^ printreg(r1) ^ ", " ^ printreg(r2) ^ ", " ^ printreg(r3)
