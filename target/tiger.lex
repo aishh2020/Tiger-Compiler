@@ -71,4 +71,4 @@ digit = [0-9];
 "/"           => ( Tokens.DIV (!lineRef,!lineRef) );
 ":="	        => ( Tokens.ASSIGN (!lineRef,!lineRef) );
 "print"       => ( Tokens.PRINT (!lineRef,!lineRef) );
-[a-zA-Z]*     => ( Tokens.VAR (!lineRef,!lineRef) );
+[a-zA-Z]+     => ( Tokens.VAR (!lineRef,!lineRef) );

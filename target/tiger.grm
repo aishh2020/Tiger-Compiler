@@ -12,7 +12,7 @@ it is empty *)
     | NEWLINE
     | ASSIGN
     | PRINT
-    | VAR
+    | VAR of string
 (* The nonterminals of the language *)
 %nonterm EXP     of Ast.Expr
        | STMT    of Ast.Stmt
@@ -48,12 +48,12 @@ PROGRAM : STMTS                 ( STMTS )
 
 STMTS   : (* empty *)          ( []                  )
 	| STMT NEWLINE STMTS     ( EXP :: EXPS         )
-        
-STMT    : VAR ASSIGN EXP       (Translate.Assigns VAR EXP)
+
+STMT    : VAR ASSIGN EXP       (Ast.Assigns VAR EXP)
         | PRINT EXP            (EXP)
 
-EXP     : CONST                ( Ast.Const CONST     )
-        | VAR                   
+EXP     : CONST                ( Ast.Const CONST )
+        | VAR                  ( Ast.Var VAR)
         | EXP PLUS EXP         ( Ast.plus  EXP1 EXP2 )
 	| EXP MINUS EXP        ( Ast.minus EXP1 EXP2 )
 	| EXP MUL   EXP        ( Ast.mul   EXP1 EXP2 )
