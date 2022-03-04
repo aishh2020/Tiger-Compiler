@@ -43,7 +43,7 @@ fun compileStmt env (Ast.Assign (str,exp)) = let
                                                 | look NONE  = let
                                                                 val temp = Temp.newtemp ()
                                                               in
-                                                                compileExpr temp (Assigns env str (Temp.newtemp ())) exp 
+                                                                compileExpr temp (Assigns env str (temp)) exp 
                                                               end   
                                               in
                                                 look t
