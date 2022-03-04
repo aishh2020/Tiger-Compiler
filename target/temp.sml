@@ -14,5 +14,5 @@ structure Temp :> TEMP = struct
    val nextTemp       = ref 0 (* Keep track of how many temps have been allocated *)
    fun newtemp  _     = (nextTemp := (!nextTemp + 1); !nextTemp)(* complete this *)
    fun getTemp _      = !nextTemp
-   fun tempToString t = Int.toString t(* complete this *)
+   fun tempToString t = "t" ^ Int.toString t(* complete this *)
 end

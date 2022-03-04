@@ -46,11 +46,11 @@ left associative and the precedence increase as you go down this list.
 PROGRAM : STMTS                 ( STMTS )
 	| STMTS NEWLINE         ( STMTS )
 
-STMTS   : (* empty *)          ( []                  )
-	| STMT NEWLINE STMTS     ( EXP :: EXPS         )
+STMTS   : (* empty *)            ( []                   )
+	| STMT NEWLINE STMTS     ( STMT :: STMTS        )
 
-STMT    : VAR ASSIGN EXP       (Ast.Assigns VAR EXP)
-        | PRINT EXP            (EXP)
+STMT    : VAR ASSIGN EXP       ( Ast.assigns VAR EXP )
+        | PRINT EXP            ( Ast.Print EXP )
 
 EXP     : CONST                ( Ast.Const CONST )
         | VAR                  ( Ast.Var VAR)

@@ -328,6 +328,10 @@ fun   prDirec (align(n))   =   ".align " ^ Int.toString(n)
     | prDirec (text(s))    =   ".text " ^ s
     | prDirec (word(x))    =   ".word " ^ prList(x)
 
- fun  prStmt (Instr(inst)) = print(prInst(inst))
-	| prStmt (Direc(direc)) = print(prDirec(direc))
+ fun  prStmt (Instr(inst)) = prInst(inst)
+	| prStmt (Direc(direc)) = prDirec(direc)
+
+ fun programToString [] = ""
+	| programToString (x::xs) = prStmt(x) ^ "\n" ^ programToString(xs) 
+
 end
