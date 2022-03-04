@@ -138,14 +138,17 @@ datatype  ('l,'t) inst =
 		       | SYSCALL
 		       | BREAK of int
 		       | NOP
-			     
+
+datatype Label = UserDefined of string  
+               | TempLabel   of int   
+
 datatype directive = align of int
 		   | ascii of string
 		   | asciiz of string
 		   | byte of int list
 		   | data of string
 		   | extern of int * int
-		   | globl of int
+		   | globl of string
 		   | half of int list
 		   | kdata of string
 		   | ktext of string
@@ -156,10 +159,8 @@ datatype directive = align of int
  (* The instructions and assembler directives *)
 datatype ('l,'t) stmt = Instr of  ('l,'t) inst
 		      | Direc of directive
+			  | L of Label
 				     
-datatype Label = UserDefined of string  
-               | TempLabel   of int  
-
 fun   printreg zero = "$zero"
 	| printreg at   = "$at"
 	| printreg v0   = "$v0"
@@ -197,8 +198,8 @@ fun   printreg zero = "$zero"
  (* Print the instructions when the labels are strings and
     registers are actual MIPS registers
   *)
-fun   printlabel (UserDefined s) = s
-    | printlabel (TempLabel i)  = Int.toString i
+fun   printlabel (UserDefined s) = s ^ ":"
+    | printlabel (TempLabel i)  = (Int.toString i) ^ ":"
 					    
  fun     prInst (ABS(r1,r2))       ="abs "^printreg(r1)^", "^printreg(r2)
 	|    prInst (ADD(r1,r2,r3))    = "add "^printreg(r1)^", "^printreg(r2)^", "^printreg(r3)
@@ -320,7 +321,7 @@ fun   prDirec (align(n))   =   ".align " ^ Int.toString(n)
     | prDirec (byte(n))    =   ".byte " ^ prList(n)
     | prDirec (data(n))    =   ".data " ^ n
     | prDirec (extern(s,n))=   ".extern " ^ Int.toString(s) ^Int.toString(n)
-    | prDirec (globl(s))   =   ".globl " ^ Int.toString(s)
+    | prDirec (globl(s))   =   ".globl " ^ s
     | prDirec (half(x))    =   ".half " ^prList(x)
     | prDirec (kdata(s))   =   ".kdata " ^ s
     | prDirec (ktext(s))   =   ".ktext " ^ s
@@ -330,6 +331,7 @@ fun   prDirec (align(n))   =   ".align " ^ Int.toString(n)
 
  fun  prStmt (Instr(inst)) = prInst(inst)
 	| prStmt (Direc(direc)) = prDirec(direc)
+	| prStmt (L(l)) = printlabel(l)
 
  fun programToString [] = ""
 	| programToString (x::xs) = prStmt(x) ^ "\n" ^ programToString(xs) 

@@ -64,6 +64,7 @@ fun compileProg env [] = [ MIPS.Instr(MIPS.LI(MIPS.v0,10)) , MIPS.Instr(MIPS.SYS
                                   ins @ compileProg env1 xs
                                 end
 
-fun compile prog = compileProg Env prog
+fun compile prog = [ MIPS.Direc(MIPS.globl("main")) , MIPS.L(MIPS.UserDefined("main")) ] @ 
+                    compileProg Env prog
 
 end
