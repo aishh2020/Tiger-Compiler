@@ -6,7 +6,7 @@ signature TEMP =
   end
 
 
-structure Temp :> TEMP = struct
+structure Temp : TEMP = struct
 
    type temp  = int (* 2ʷ many variables on a w-sized machine *)
 		      (* you can use IntInf.int if you want unbounded *)
