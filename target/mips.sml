@@ -198,8 +198,8 @@ fun   printreg zero = "$zero"
  (* Print the instructions when the labels are strings and
     registers are actual MIPS registers
   *)
-fun   printlabel (UserDefined s) = s ^ ":"
-    | printlabel (TempLabel i)  = (Int.toString i) ^ ":"
+fun   printlabel (UserDefined s) = s 
+    | printlabel (TempLabel i)  = "$l" ^ (Int.toString i) 
 					    
  fun     prInst (ABS(r1,r2))       ="abs "^printreg(r1)^", "^printreg(r2)
 	|    prInst (ADD(r1,r2,r3))    = "add "^printreg(r1)^", "^printreg(r2)^", "^printreg(r3)
@@ -331,7 +331,7 @@ fun   prDirec (align(n))   =   ".align " ^ Int.toString(n)
 
  fun  prStmt (Instr(inst)) = prInst(inst)
 	| prStmt (Direc(direc)) = prDirec(direc)
-	| prStmt (L(l)) = printlabel(l)
+	| prStmt (L(l)) = printlabel(l) ^ ":"
 
  fun programToString [] = ""
 	| programToString (x::xs) = prStmt(x) ^ "\n" ^ programToString(xs) 

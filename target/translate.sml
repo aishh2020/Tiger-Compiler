@@ -43,7 +43,7 @@ fun compileStmt env (Ast.Assign (str,exp)) = let
                                                 | look NONE  = let
                                                                 val temp = Temp.newtemp ()
                                                               in
-                                                                compileExpr temp (Assigns env str (temp)) exp 
+                                                                compileExpr temp (Assigns env str temp) exp 
                                                               end   
                                               in
                                                 look t
@@ -57,7 +57,27 @@ fun compileStmt env (Ast.Assign (str,exp)) = let
                                               MIPS.Instr(MIPS.ADDI(MIPS.a0,(temp_to_Reg temp),0)),
                                               MIPS.Instr(MIPS.SYSCALL) ], env1 )
                                             end
-fun compileProg env [] = [ MIPS.Instr(MIPS.LI(MIPS.v0,10)) , MIPS.Instr(MIPS.SYSCALL) ] 
+  | compileStmt env (Ast.For(var,a,b,stmts)) = let
+                                              val l1 = Temp.newlabel ()
+                                              val l2 = Temp.newlabel ()
+                                              val temp = Temp.newtemp ()
+                                              val env1 = Assigns env var temp 
+                                              val reg = temp_to_Reg temp
+                                              val r2 = temp_to_Reg (Temp.newtemp ())
+                                              fun comp [] env = []
+                                                | comp (x :: xs) env = let 
+                                                                  val (ins,env2) = compileStmt env x 
+                                                                in
+                                                                  ins @ comp xs env2
+                                                                end
+                                              val ilist = comp stmts env1
+                                              in
+            
+                                              ( [ MIPS.Instr(MIPS.LI(reg,a)), MIPS.Instr(MIPS.LI(r2, b)) ,MIPS.L(MIPS.TempLabel(l1)), MIPS.Instr(MIPS.BGT(reg,r2,MIPS.TempLabel(l2)))] 
+                                              @ ilist @ [ MIPS.Instr(MIPS.ADDI(reg,reg,1)), MIPS.Instr(MIPS.J(MIPS.TempLabel(l1))) , MIPS.L(MIPS.TempLabel(l2)) ] , env)
+                                              end
+
+fun compileProg env [] = []
   | compileProg env (x :: xs) = let 
                                   val (ins,env1) = compileStmt env x 
                                 in
@@ -65,6 +85,8 @@ fun compileProg env [] = [ MIPS.Instr(MIPS.LI(MIPS.v0,10)) , MIPS.Instr(MIPS.SYS
                                 end
 
 fun compile prog = [ MIPS.Direc(MIPS.globl("main")) , MIPS.L(MIPS.UserDefined("main")) ] @ 
-                    compileProg Env prog
+                    compileProg Env prog @ [ MIPS.Instr(MIPS.LI(MIPS.v0,10)) , MIPS.Instr(MIPS.SYSCALL) ] 
 
 end
+val x = Ast.For("x",1,2,[])
+val k = Translate.compile [ x ]

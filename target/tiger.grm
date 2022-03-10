@@ -13,6 +13,10 @@ it is empty *)
     | ASSIGN
     | PRINT
     | VAR of string
+    | FOR 
+    | TO
+    | DO
+    | DONE
 (* The nonterminals of the language *)
 %nonterm EXP     of Ast.Expr
        | STMT    of Ast.Stmt
@@ -49,8 +53,10 @@ PROGRAM : STMTS                 ( STMTS )
 STMTS   : (* empty *)            ( []                   )
 	| STMT NEWLINE STMTS     ( STMT :: STMTS        )
 
-STMT    : VAR ASSIGN EXP       ( Ast.assigns VAR EXP )
+STMT    : FOR VAR ASSIGN CONST TO CONST NEWLINE DO NEWLINE STMTS DONE ( Ast.For(VAR,CONST1,CONST2,STMTS))
+        | VAR ASSIGN EXP       ( Ast.assigns VAR EXP )
         | PRINT EXP            ( Ast.Print EXP )
+        
 
 EXP     : CONST                ( Ast.Const CONST )
         | VAR                  ( Ast.Var VAR)
