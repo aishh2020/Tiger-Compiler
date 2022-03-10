@@ -6,8 +6,6 @@ signature TEMP =
      val newtemp    : unit -> temp
      val newlabel   : unit -> label
 
-     val getTemp : unit -> temp
-     val getLabel : unit -> label
      val tempToString : temp -> string
      val labelToString : label -> string
   end
@@ -22,13 +20,10 @@ structure Temp : TEMP = struct
    val nextTemp       = ref 0 (* Keep track of how many temps have been allocated *)
    val nextLabel      = ref 0
 
-   fun getTemp _      = !nextTemp
-   fun getLabel _     = !nextLabel
-
-   fun newtemp  _     = (nextTemp := (getTemp () + 1); getTemp ())
-   fun newlabel  _    = (nextLabel := (getLabel () + 1); getLabel ())
+   fun newtemp  _     = (nextTemp := ( !nextTemp + 1 ); !nextTemp)
+   fun newlabel  _    = (nextLabel := ( !nextLabel + 1 ); !nextLabel)
 
    fun tempToString t = "t" ^ Int.toString t
-   fun labelToString t = "t" ^ Int.toString t 
+   fun labelToString t = "l" ^ Int.toString t 
 
 end

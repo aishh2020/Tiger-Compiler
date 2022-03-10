@@ -88,5 +88,3 @@ fun compile prog = [ MIPS.Direc(MIPS.globl("main")) , MIPS.L(MIPS.UserDefined("m
                     compileProg Env prog @ [ MIPS.Instr(MIPS.LI(MIPS.v0,10)) , MIPS.Instr(MIPS.SYSCALL) ] 
 
 end
-val x = Ast.For("x",1,2,[])
-val k = Translate.compile [ x ]
