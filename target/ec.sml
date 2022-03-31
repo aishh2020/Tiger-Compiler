@@ -58,7 +58,9 @@ fun print_error (s,i:int,_) = TextIO.output(TextIO.stdErr,
 
 val (program,_) = ExprParser.parse (0,thisLexer,print_error,()) (* parsing *)
 val executable  = Translate.compile program                     (* compiling/code generation *)
-val _           = TextIO.output(TextIO.stdOut, MIPS.programToString executable)
+val executable2 = MIPSBasicBlocks.basicBlocks executable
+val _           = TextIO.output(TextIO.stdOut, MIPS.programToString executable) 
+val _           = TextIO.output(TextIO.stdOut, MIPS.prBlocks executable2)
 			       (* writing out the executable (in this case rp expression ) *)
 
 end

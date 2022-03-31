@@ -3,11 +3,11 @@ $(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
 $(SML_LIB)/smlnj-lib/Util/smlnj-lib.mlb
 
 ast.sml         (* the syntax                                   *)
+basic_block.sml
 mips.sml     (* The stack machine                            *)
 temp.sml        (* Temp *)
 translate.sml   (* The translate function                       *)
 tiger.grm.sig    (* The signature file generated for the grammar *)
 tiger.grm.sml    (* The parser                                   *)
 tiger.lex.sml    (* The lexer for the machine                    *)
-
 ec.sml

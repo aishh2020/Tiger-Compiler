@@ -336,4 +336,45 @@ fun   prDirec (align(n))   =   ".align " ^ Int.toString(n)
  fun programToString [] = ""
 	| programToString (x::xs) = prStmt(x) ^ "\n" ^ programToString(xs) 
 
+fun prBlocks [] = ""
+	| prBlocks (x::xs) = (programToString x) ^ "\n" ^ "-----" ^ "\n" ^ (prBlocks xs)
+
 end
+
+structure MIPSInst : INST = struct
+    type t = (MIPS.Label,MIPS.reg) MIPS.stmt
+    fun isJump_like (MIPS.J(_))      = true
+    | isJump_like (MIPS.B(_))        = true
+    | isJump_like (MIPS.BCZT(_))     = true
+    | isJump_like (MIPS.BCZF(_))     = true
+    | isJump_like (MIPS.BEQ(_,_,_))  = true
+    | isJump_like (MIPS.BEQZ(_,_))   = true           
+    | isJump_like (MIPS.BGE(_,_,_))  = true           
+    | isJump_like (MIPS.BGEU(_,_,_)) = true
+    | isJump_like (MIPS.BGEZ(_,_))   = true
+    | isJump_like (MIPS.BGEZAL(_,_)) = true
+    | isJump_like (MIPS.BGT(_,_,_))  = true
+    | isJump_like (MIPS.BGTU(_,_,_)) = true
+    | isJump_like (MIPS.BGTZ(_,_))   = true
+    | isJump_like (MIPS.BLE(_,_,_))  = true
+	| isJump_like (MIPS.BLEU(_,_,_)) = true
+	| isJump_like (MIPS.BLEZ(_,_))   = true
+	| isJump_like (MIPS.BLTZAL(_,_)) = true
+    | isJump_like (MIPS.BLT(_,_,_))  = true
+	| isJump_like (MIPS.BLTU(_,_,_)) = true
+	| isJump_like (MIPS.BLTZ(_,_))   = true
+	| isJump_like (MIPS.BNE(_,_,_))  = true
+	| isJump_like (MIPS.BNEZ(_,_))   = true
+	| isJump_like (MIPS.JAL(_))      = true
+	| isJump_like (MIPS.JALR(_))     = true
+	| isJump_like (MIPS.JR(_))       = true
+    | isJump_like _                  = false
+
+    fun isJumpLike (MIPS.Instr(x)) = isJump_like(x)
+    | isJumpLike _ = false
+
+    fun isTarget (MIPS.L(_)) = true
+    | isTarget _ = false
+end
+
+structure MIPSBasicBlocks = BasicBlocks (MIPSInst)
