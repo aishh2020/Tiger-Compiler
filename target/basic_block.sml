@@ -6,18 +6,9 @@ end
 
 functor BasicBlocks (I : INST) = struct
 
-    structure Inst = I                     (* expose the instruction module
-						as well
-					     *)
+    structure Inst = I                     
     type block = I.t list
     (*val basicBlocks : I.t list -> block list*)
-    (* fun basicBlocks [] =  [[]]
-    | basicBlocks (x :: xs) = if I.isJumpLike(x) 
-                                then  [x] :: (basicBlocks xs)
-                              else if I.isTarget(x)
-                                then [] :: ((x :: (List.hd (basicBlocks xs))) :: (List.tl (basicBlocks xs))) 
-                              else
-                                (x :: List.hd (basicBlocks xs)) :: (List.tl (basicBlocks xs))   *)
     fun basicBlocks [] =  [[]]
     | basicBlocks (x :: xs) = if I.isJumpLike(x) andalso List.null (List.hd (basicBlocks xs))  
                                 then  [x] :: (List.tl (basicBlocks xs))
@@ -27,10 +18,14 @@ functor BasicBlocks (I : INST) = struct
                                 then [] :: ((x :: (List.hd (basicBlocks xs))) :: (List.tl (basicBlocks xs))) 
                               else
                                 (x :: List.hd (basicBlocks xs)) :: (List.tl (basicBlocks xs))
-                                             
-                                (* complete this *)
 
 end
 
 
-
+(* fun basicBlocks [] =  [[]]
+    | basicBlocks (x :: xs) = if I.isJumpLike(x) 
+                                then  [x] :: (basicBlocks xs)
+                              else if I.isTarget(x)
+                                then [] :: ((x :: (List.hd (basicBlocks xs))) :: (List.tl (basicBlocks xs))) 
+                              else
+                                (x :: List.hd (basicBlocks xs)) :: (List.tl (basicBlocks xs))   *)
