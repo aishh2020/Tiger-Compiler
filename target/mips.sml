@@ -337,7 +337,7 @@ fun   prDirec (align(n))   =   ".align " ^ Int.toString(n)
 	| programToString (x::xs) = prStmt(x) ^ "\n" ^ programToString(xs) 
 
 fun prBlocks [] = ""
-	| prBlocks (x::xs) = (programToString x) ^ "\n" ^ "-----" ^ "\n" ^ (prBlocks xs)
+	| prBlocks (x::xs) = (programToString x) ^ "\n"  ^ (prBlocks xs)
 
 end
 
