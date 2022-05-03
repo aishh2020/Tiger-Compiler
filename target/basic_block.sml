@@ -20,7 +20,7 @@ functor BasicBlocks (I : INST) = struct
                                 (x :: List.hd (basicBlocks xs)) :: (List.tl (basicBlocks xs))
 
 end
-
+[[5,j],[l,1,2],[3,4,5]]
 
 (* fun basicBlocks [] =  [[]]
     | basicBlocks (x :: xs) = if I.isJumpLike(x) 
