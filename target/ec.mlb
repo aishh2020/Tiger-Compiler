@@ -1,0 +1,13 @@
+$(SML_LIB)/basis/basis.mlb
+$(SML_LIB)/mlyacc-lib/mlyacc-lib.mlb
+$(SML_LIB)/smlnj-lib/Util/smlnj-lib.mlb
+
+src/ast.sml         (* the syntax                                   *)
+target/basic_block.sml
+target/mips.sml     (* The stack machine                            *)
+target/temp.sml        (* Temp *)
+target/translate.sml   (* The translate function                       *)
+src/tiger.grm.sig    (* The signature file generated for the grammar *)
+src/tiger.grm.sml    (* The parser                                   *)
+src/tiger.lex.sml    (* The lexer for the machine                    *)
+src/ec.sml
